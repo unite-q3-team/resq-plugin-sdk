@@ -7,7 +7,7 @@
 //! handler; plain RESQ plugins can use the [`crate::handshake`] helpers the
 //! same way.
 
-use crate::rpc::{codes, Id, Message, RpcError};
+use crate::rpc::{Message, RpcError};
 use crate::transport::{StdioTransport, TransportError};
 use serde::Serialize;
 use serde_json::Value;
@@ -90,14 +90,4 @@ impl Handshake {
             Some(v) if v as u32 <= crate::PROTOCOL_VERSION
         )
     }
-}
-
-/// Uniform mapping of handler errors that mention an unknown id type.
-pub fn null_id() -> Id {
-    Id::Num(0)
-}
-
-/// Standard error for requests received before the session is ready.
-pub fn not_ready(what: &str) -> RpcError {
-    RpcError::new(codes::PLUGIN_ERROR, format!("not ready: {what}"))
 }

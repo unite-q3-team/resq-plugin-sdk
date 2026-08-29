@@ -80,7 +80,6 @@ mod tests {
     use super::*;
     use crate::rpc::{Id, RpcError};
     use std::io::BufWriter;
-    use std::process::Output;
 
     #[test]
     fn roundtrip_over_memory_buffer() {
@@ -110,8 +109,4 @@ mod tests {
             other => panic!("expected BadMessage, got {other:?}"),
         }
     }
-
-    // Silence unused-import lint for Output on some toolchains.
-    #[allow(dead_code)]
-    fn _t(_: Output) {}
 }
