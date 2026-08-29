@@ -70,24 +70,3 @@ pub fn serve_stdio(handler: &mut dyn Handler) -> Result<usize, TransportError> {
     eprintln!("[resq] {} v{} serving on stdio", info.name, info.version);
     serve(handler, std::io::stdin().lock(), std::io::stdout().lock())
 }
-
-/// Helpers for the optional RESQ-level handshake (see [`crate::handshake`]).
-pub struct Handshake;
-
-impl Handshake {
-    /// Build the `initialize` result for a handler's plugin info.
-    pub fn result(info: &PluginInfo, protocol_version: u32) -> Value {
-        serde_json::json!({
-            "protocolVersion": protocol_version,
-            "plugin": { "name": info.name, "version": info.version },
-        })
-    }
-
-    /// True when `params` carries a supported `protocolVersion`.
-    pub fn accepts(params: &Value) -> bool {
-        matches!(
-            params.get("protocolVersion").and_then(Value::as_u64),
-            Some(v) if v as u32 <= crate::PROTOCOL_VERSION
-        )
-    }
-}

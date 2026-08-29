@@ -56,8 +56,9 @@ results — see the resq-mcp docs.
 ```
 
 The plugin echoes the highest protocol version it supports that is `<=`
-the requested one. `handshake::InitializeResult` builds the payload;
-`service::Handshake::accepts` validates an incoming request.
+the requested one. `handshake::accepts` validates an incoming request;
+`handshake::InitializeResult` builds the reply (`.from_info(&info)` fills
+the plugin identity, `.with_protocol_version(v)` sets the echoed version).
 
 ## MCP handshake (MCP servers built on this SDK)
 
